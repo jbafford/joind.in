@@ -178,6 +178,7 @@ class Talks_model extends Model
                 '
                 select
                     talks.*,
+                    talk_attachments.link_url slides_link,
                     CASE 
                         WHEN (((talks.date_given - 86400) < ' .
                 mktime(0, 0, 0) .
@@ -213,6 +214,7 @@ class Talks_model extends Model
                     (talk_comments.talk_id = talks.ID AND talk_comments.private = 0)
                 inner join events on (events.ID = talks.event_id)
                 inner join lang on (lang.ID = talks.lang)
+                left join talk_attachments on talks.ID = talk_attachments.talk_id and link_type_id = 1
                 where
                     talks.ID=%s and
                     talks.active=1
@@ -233,6 +235,7 @@ class Talks_model extends Model
                 '
                 select
                     talks.*,
+                    talk_attachments.link_url slides_link,
                     talks.ID tid,
                     events.ID eid,
                     events.event_name,
@@ -252,6 +255,7 @@ class Talks_model extends Model
                 left join talk_comments on (talk_comments.talk_id = talks.ID)
                 inner join events on (events.ID = talks.event_id)
                 inner join lang on (lang.ID = talks.lang)
+                left join talk_attachments on talks.ID = talk_attachments.talk_id and link_type_id = 1
                 where
                     %s
                     talks.active=1

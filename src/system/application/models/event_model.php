@@ -263,7 +263,7 @@ SQL
             select
                 talks.talk_title,
                 talks.speaker,
-                talks.slides_link,
+                talk_attachments.link_url slides_link,
                 talks.date_given,
                 talks.duration,
                 talks.event_id,
@@ -284,6 +284,7 @@ SQL
             inner join events on events.ID = talks.event_id
             left join talk_cat on talks.ID = talk_cat.talk_id
             left join categories on talk_cat.cat_id = categories.ID
+            left join talk_attachments on talks.ID = talk_attachments.talk_id and link_type_id = 1
             where
                 ';
         if (!$includeEventRelated) {
@@ -796,7 +797,7 @@ SQL
             select
                 talks.talk_title,
                 talks.speaker,
-                talks.slides_link,
+                talk_attachments.link_url slides_link,
                 talks.date_given,
                 talks.duration,
                 talks.event_id,
@@ -817,6 +818,7 @@ SQL
             inner join events on events.ID = talks.event_id
             left join talk_cat on talks.ID = talk_cat.talk_id
             left join categories on talk_cat.cat_id = categories.ID
+            left join talk_attachments on talks.ID = talk_attachments.talk_id and link_type_id = 1
             where
                 categories.cat_title = "Event Related" and
                 event_id=%s and
